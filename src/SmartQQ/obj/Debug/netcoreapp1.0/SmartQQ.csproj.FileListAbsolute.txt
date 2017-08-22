@@ -1,0 +1,4 @@
+C:\Users\chenglinwang\Source\Repos\DumbQQ\SmartQQ\bin\Debug\netcoreapp1.0\SmartQQ.deps.json
+C:\Users\chenglinwang\Source\Repos\DumbQQ\SmartQQ\obj\Debug\netcoreapp1.0\SmartQQ.csprojResolveAssemblyReference.cache
+C:\Users\chenglinwang\Source\Repos\DumbQQ\SmartQQ\obj\Debug\netcoreapp1.0\SmartQQ.AssemblyInfo.cs
+C:\Users\chenglinwang\Source\Repos\DumbQQ\SmartQQ\bin\Debug\netcoreapp1.0\SmartQQ.dll
