@@ -158,6 +158,19 @@ namespace SmartQQ.Constants
             return await response;
         }
 
+        public static async Task<HttpResponseMessage> PostAsyncWithRetry(this HttpClient client, ApiUrl url, JObject json, int retryTimes)
+        {
+            Task<HttpResponseMessage> response;
+            do
+            {
+                response = client.PostAsync(url.Url, new StringContent(json.ToString(Formatting.None), Encoding.UTF8, "application/json"));
+                response.Wait();
+                retryTimes++;
+            }
+            while (retryTimes >= 0 && response.Result.StatusCode != System.Net.HttpStatusCode.OK);
+            return await response;
+        }
+
 
         internal static async Task<string>  RawText(this HttpResponseMessage response)
         {

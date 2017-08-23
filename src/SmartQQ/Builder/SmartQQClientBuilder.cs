@@ -309,7 +309,7 @@ namespace SmartQQ.Builder
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
 
-            var response = Client.PostWithRetry(url, new JObject
+            var response = Client.PostAsyncWithRetry(url, new JObject
             {
                 {paramName, id},
                 {
@@ -330,7 +330,7 @@ namespace SmartQQ.Builder
             if (response.Result.StatusCode != HttpStatusCode.OK)
                 Logger.Instance.Error("消息发送失败，HTTP返回码" + (int)response.Result.StatusCode);
 
-            var status = JObject.Parse(response.Result.RawText().Result)["errCode"].ToObject<int?>();
+            var status = JObject.Parse(response.Result.RawText().Result)["retcode"].ToObject<int?>();
             if (status != null && (status == 0 || status == 100100))
             {
                 Logger.Instance.Debug("消息发送成功");
