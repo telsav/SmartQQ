@@ -158,6 +158,14 @@ namespace SmartQQ.Constants
             return await response;
         }
 
+        /// <summary>
+        ///   带重试的发送。
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="url"></param>
+        /// <param name="json"></param>
+        /// <param name="retryTimes"></param>
+        /// <returns></returns>
         public static async Task<HttpResponseMessage> PostAsyncWithRetry(this HttpClient client, ApiUrl url, JObject json, int retryTimes)
         {
             Task<HttpResponseMessage> response;
