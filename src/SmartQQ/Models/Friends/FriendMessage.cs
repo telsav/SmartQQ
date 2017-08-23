@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SmartQQ.Client;
+using SmartQQ;
+using SmartQQ.Builder;
 using SmartQQ.Utils;
 
 namespace SmartQQ.Models
@@ -11,7 +12,7 @@ namespace SmartQQ.Models
     public class FriendMessage : IMessage
     {
         [JsonIgnore]
-        internal SmartQQClient Client;
+        internal SmartQQClientBuilder Client;
 
         /// <summary>
         ///     字体。

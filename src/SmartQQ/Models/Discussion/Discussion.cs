@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SmartQQ.Client;
+using SmartQQ;
+using SmartQQ.Builder;
 using SmartQQ.Constants;
 using SmartQQ.Utils;
 using System.Collections.Generic;
@@ -12,9 +13,11 @@ namespace SmartQQ.Models
     /// </summary>
     public class Discussion : IListable, IMessageable
     {
-        [JsonIgnore] private readonly LazyHelper<DiscussionInfo> _info = new LazyHelper<DiscussionInfo>();
+        [JsonIgnore]
+        private readonly LazyHelper<DiscussionInfo> _info = new LazyHelper<DiscussionInfo>();
 
-        [JsonIgnore] internal SmartQQClient Client;
+        [JsonIgnore]
+        internal SmartQQClientBuilder Client;
 
         [JsonIgnore]
         private DiscussionInfo Info
@@ -87,7 +90,7 @@ namespace SmartQQ.Models
             return Id.GetHashCode();
         }
 
-        internal static List<Discussion> GetList(SmartQQClient client)
+        internal static List<Discussion> GetList(SmartQQClientBuilder client)
         {
             Logger.Instance.Debug("开始获取讨论组列表");
             var response = client.Client.GetAsync(ApiUrl.GetDiscussionList, client.Psessionid, client.Vfwebqq,

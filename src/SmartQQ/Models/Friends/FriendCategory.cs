@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SmartQQ.Client;
+using SmartQQ;
+using SmartQQ.Builder;
 using SmartQQ.Constants;
 using SmartQQ.Utils;
 using System;
@@ -15,7 +16,8 @@ namespace SmartQQ.Models
     /// </summary>
     public class FriendCategory : IListable
     {
-        [JsonIgnore] internal SmartQQClient Client;
+        [JsonIgnore]
+        internal SmartQQClientBuilder Client;
 
         /// <summary>
         ///     序号。
@@ -50,7 +52,7 @@ namespace SmartQQ.Models
             };
         }
 
-        internal static List<FriendCategory> GetList(SmartQQClient client)
+        internal static List<FriendCategory> GetList(SmartQQClientBuilder client)
         {
             Logger.Instance.Debug("开始获取好友列表");
             var response = client.Client.PostAsync(ApiUrl.GetFriendList,

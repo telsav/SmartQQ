@@ -1,4 +1,4 @@
-﻿namespace SmartQQ.Client
+﻿namespace SmartQQ
 {
     public partial class SmartQQClient
     {

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SmartQQ.Client;
+using SmartQQ;
+using SmartQQ.Builder;
 using SmartQQ.Constants;
 using System.Collections.Generic;
 
@@ -44,11 +45,12 @@ namespace SmartQQ.Models
         [JsonProperty("uin")]
         public long Id { get; set; }
 
-        internal static List<ChatHistory> GetList(SmartQQClient client)
-        {
+        internal static List<ChatHistory> GetList(SmartQQClientBuilder client)
+        { 
+            
             //SmartQQClient.Logger.Debug("开始获取最近聊天记录列表");
             var response = client.Client.PostAsync(ApiUrl.GetChatHistoryList,
-                new JObject { { "vfwebqq", client.Vfwebqq }, { "clientid", SmartQQClient.ClientId }, { "psessionid", "" } });
+                new JObject { { "vfwebqq", client.Vfwebqq }, { "clientid", SmartQQClientBuilder.ClientId }, { "psessionid", "" } });
             return
                 ((JArray)client.GetResponseJson(response.Result)["result"])
                 .ToObject<List<ChatHistory>>();

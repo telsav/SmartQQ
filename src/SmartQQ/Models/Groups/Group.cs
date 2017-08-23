@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SmartQQ.Client;
+using SmartQQ;
+using SmartQQ.Builder;
 using SmartQQ.Constants;
 using SmartQQ.Utils;
 using System;
@@ -13,9 +14,11 @@ namespace SmartQQ.Models
     /// </summary>
     public class Group : IListable, IMessageable
     {
-        [JsonIgnore] private readonly LazyHelper<GroupInfo> _info = new LazyHelper<GroupInfo>();
+        [JsonIgnore]
+        private readonly LazyHelper<GroupInfo> _info = new LazyHelper<GroupInfo>();
 
-        [JsonIgnore] internal SmartQQClient Client;
+        [JsonIgnore]
+        internal SmartQQClientBuilder Client;
 
         /// <summary>
         ///     意义尚不明确。
@@ -33,45 +36,52 @@ namespace SmartQQ.Models
         private GroupInfo Info => _info.GetValue(() =>
         {
             Logger.Instance.Debug("开始获取群资料");
-
-            var response = Client.Client.GetAsync(ApiUrl.GetGroupInfo, Code, Client.Vfwebqq);
-            var result = (JObject)Client.GetResponseJson(response.Result)["result"];
-            var info = result["ginfo"].ToObject<GroupInfo>();
-            // 获得群成员信息
-            var members = new Dictionary<long, GroupMember>();
-            var minfo = (JArray)result["minfo"];
-            for (var i = 0; minfo != null && i < minfo.Count; i++)
+            try
             {
-                var member = minfo[i].ToObject<GroupMember>();
-                members.Add(member.Id, member);
-                info.Members.Add(member);
+                var response = Client.Client.GetAsync(ApiUrl.GetGroupInfo, Code, Client.Vfwebqq);
+                var result = (JObject)Client.GetResponseJson(response.Result)["result"];
+                var info = result["ginfo"].ToObject<GroupInfo>();
+                // 获得群成员信息
+                var members = new Dictionary<long, GroupMember>();
+                var minfo = (JArray)result["minfo"];
+                for (var i = 0; minfo != null && i < minfo.Count; i++)
+                {
+                    var member = minfo[i].ToObject<GroupMember>();
+                    members.Add(member.Id, member);
+                    info.Members.Add(member);
+                }
+                var stats = (JArray)result["stats"];
+                for (var i = 0; stats != null && i < stats.Count; i++)
+                {
+                    var item = (JObject)stats[i];
+                    var member = members[item["uin"].Value<long>()];
+                    member.ClientType = item["client_type"].Value<int>();
+                    member.Status = item["stat"].Value<int>();
+                }
+                var cards = (JArray)result["cards"];
+                for (var i = 0; cards != null && i < cards.Count; i++)
+                {
+                    var item = (JObject)cards[i];
+                    members[item["muin"].Value<long>()].Alias = item["card"].Value<string>();
+                    if (item["muin"].Value<long>() == Client.Id)
+                        info.MyAlias = item["card"].Value<string>();
+                }
+                var vipinfo = (JArray)result["vipinfo"];
+                for (var i = 0; vipinfo != null && i < vipinfo.Count; i++)
+                {
+                    var item = (JObject)vipinfo[i];
+                    var member = members[item["u"].Value<long>()];
+                    member.IsVip = item["is_vip"].Value<int>() == 1;
+                    member.VipLevel = item["vip_level"].Value<int>();
+                }
+                info.Members.ForEach(_ => _.Client = Client);
+                return info;
             }
-            var stats = (JArray)result["stats"];
-            for (var i = 0; stats != null && i < stats.Count; i++)
+            catch (Exception ex)
             {
-                var item = (JObject)stats[i];
-                var member = members[item["uin"].Value<long>()];
-                member.ClientType = item["client_type"].Value<int>();
-                member.Status = item["stat"].Value<int>();
+                Logger.Instance.Error(ex);
+                return null;
             }
-            var cards = (JArray)result["cards"];
-            for (var i = 0; cards != null && i < cards.Count; i++)
-            {
-                var item = (JObject)cards[i];
-                members[item["muin"].Value<long>()].Alias = item["card"].Value<string>();
-                if (item["muin"].Value<long>() == Client.Id)
-                    info.MyAlias = item["card"].Value<string>();
-            }
-            var vipinfo = (JArray)result["vipinfo"];
-            for (var i = 0; vipinfo != null && i < vipinfo.Count; i++)
-            {
-                var item = (JObject)vipinfo[i];
-                var member = members[item["u"].Value<long>()];
-                member.IsVip = item["is_vip"].Value<int>() == 1;
-                member.VipLevel = item["vip_level"].Value<int>();
-            }
-            info.Members.ForEach(_ => _.Client = Client);
-            return info;
         });
 
         /// <summary>
@@ -148,7 +158,7 @@ namespace SmartQQ.Models
             return Id.GetHashCode();
         }
 
-        internal static List<Group> GetList(SmartQQClient client)
+        internal static List<Group> GetList(SmartQQClientBuilder client)
         {
            Logger.Instance.Debug("开始获取群列表");
             var response = client.Client.PostAsync(ApiUrl.GetGroupList,

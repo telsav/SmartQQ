@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SmartQQ.Client;
+using SmartQQ;
+using SmartQQ.Builder;
 using SmartQQ.Utils;
 
 namespace SmartQQ.Models
@@ -23,7 +24,7 @@ namespace SmartQQ.Models
         private readonly LazyHelper<bool> _strictlyMentionedMe = new LazyHelper<bool>();
 
         [JsonIgnore]
-        internal SmartQQClient Client;
+        internal SmartQQClientBuilder Client;
 
         /// <summary>
         ///     群ID。

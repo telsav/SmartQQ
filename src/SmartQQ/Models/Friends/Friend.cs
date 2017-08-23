@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SmartQQ.Client;
+using SmartQQ;
+using SmartQQ.Builder;
 using SmartQQ.Constants;
 using SmartQQ.Utils;
 using System;
@@ -15,10 +16,14 @@ namespace SmartQQ.Models
     /// </summary>
     public class Friend : User, IListable, IMessageable
     {
-        [JsonIgnore] private readonly LazyHelper<FriendCategory> _category = new LazyHelper<FriendCategory>();
-        [JsonIgnore] private readonly LazyHelper<FriendInfo> _info = new LazyHelper<FriendInfo>();
+        [JsonIgnore]
+        private readonly LazyHelper<FriendCategory> _category = new LazyHelper<FriendCategory>();
 
-        [JsonIgnore] internal SmartQQClient Client;
+        [JsonIgnore]
+        private readonly LazyHelper<FriendInfo> _info = new LazyHelper<FriendInfo>();
+
+        [JsonIgnore]
+        internal SmartQQClientBuilder Client;
 
         /// <inheritdoc />
         [JsonProperty("nickname")]
@@ -184,14 +189,14 @@ namespace SmartQQ.Models
         /// <inheritdoc />
         public override int GetHashCode() => Id.GetHashCode();
 
-        internal static List<Friend> GetList(SmartQQClient client)
+        internal static List<Friend> GetList(SmartQQClientBuilder client)
         {
             Logger.Instance.Debug("开始获取好友列表");
             var response = client.Client.PostAsync(ApiUrl.GetFriendList,
                 new JObject { { "vfwebqq", client.Vfwebqq }, { "hash", client.Hash } });
             var result = (JObject)client.GetResponseJson(response.Result)["result"];
             //获得好友信息
-            var friendDictionary = SmartQQClient.ParseFriendDictionary(result);
+            var friendDictionary = SmartQQClientBuilder.ParseFriendDictionary(result);
             var friends = result["friends"] as JArray;
             for (var i = 0; friends != null && i < friends.Count; i++)
             {

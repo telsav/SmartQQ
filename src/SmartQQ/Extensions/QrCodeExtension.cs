@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Linq;
 
-namespace SmartQQ.Client
+namespace SmartQQ
 {
     public partial class SmartQQClient
     {

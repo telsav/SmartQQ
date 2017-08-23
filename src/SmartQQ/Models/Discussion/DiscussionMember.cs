@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
-using SmartQQ.Client;
+using SmartQQ;
+using SmartQQ.Builder;
 
 namespace SmartQQ.Models
 {
@@ -8,7 +9,8 @@ namespace SmartQQ.Models
     /// </summary>
     public class DiscussionMember : User
     {
-        [JsonIgnore] internal SmartQQClient Client;
+        [JsonIgnore]
+        internal SmartQQClientBuilder Client;
 
         /// <inheritdoc />
         [JsonIgnore]

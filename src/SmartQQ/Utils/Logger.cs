@@ -5,7 +5,7 @@ using System.Drawing;
 using Console = Colorful.Console;
 using System.Text;
 
-namespace SmartQQ.Client
+namespace SmartQQ
 {
     public sealed class Logger
     {
@@ -91,7 +91,13 @@ namespace SmartQQ.Client
 
         public void Error(Exception ex, string module)
         {
-            WriteEntry(ex.Message, LogType.Error, module);
+            string msg = string.Empty;
+            for (var ee = ex; ee != null; ee = ee.InnerException)
+            {
+                msg += ee.Message + Environment.NewLine;
+                msg += ee.StackTrace + Environment.NewLine;
+            }
+            WriteEntry(msg, LogType.Error, module);
         }
         public void Error(Exception ex)
         {
@@ -101,7 +107,7 @@ namespace SmartQQ.Client
                 msg += ee.Message + Environment.NewLine;
                 msg += ee.StackTrace + Environment.NewLine;
             }
-            WriteEntry(ex.Message, LogType.Error);
+            WriteEntry(msg, LogType.Error);
         }
 
         public void Warning(string message, string module)=> WriteEntry(message, LogType.Warning, module);

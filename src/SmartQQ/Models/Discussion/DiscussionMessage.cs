@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SmartQQ.Client;
+using SmartQQ;
+using SmartQQ.Builder;
 using SmartQQ.Utils;
 
 namespace SmartQQ.Models
@@ -10,10 +11,14 @@ namespace SmartQQ.Models
     /// </summary>
     public class DiscussionMessage : IMessage
     {
-        [JsonIgnore] private readonly LazyHelper<Discussion> _discussion = new LazyHelper<Discussion>();
-        [JsonIgnore] private readonly LazyHelper<DiscussionMember> _sender = new LazyHelper<DiscussionMember>();
+        [JsonIgnore]
+        private readonly LazyHelper<Discussion> _discussion = new LazyHelper<Discussion>();
 
-        [JsonIgnore] internal SmartQQClient Client;
+        [JsonIgnore]
+        private readonly LazyHelper<DiscussionMember> _sender = new LazyHelper<DiscussionMember>();
+
+        [JsonIgnore]
+        internal SmartQQClientBuilder Client;
 
         /// <summary>
         ///     讨论组ID。

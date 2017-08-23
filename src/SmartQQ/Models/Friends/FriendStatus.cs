@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SmartQQ.Client;
+using SmartQQ;
+using SmartQQ.Builder;
 using SmartQQ.Constants;
 using System;
 using System.Collections.Generic;
@@ -31,8 +32,9 @@ namespace SmartQQ.Models
         [JsonProperty("client_type")]
         public int ClientType { get; set; }
 
-        internal static List<FriendStatus> GetList(SmartQQClient client)
+        public static List<FriendStatus> GetList(SmartQQClientBuilder client)
         {
+            
             Logger.Instance.Debug("开始获取好友状态列表");
             var response = client.Client.GetAsync(ApiUrl.GetFriendStatus, client.Vfwebqq, client.Psessionid);
             return

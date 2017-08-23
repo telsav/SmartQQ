@@ -13,9 +13,4 @@
     <PackageReference Include="System.Text.Encodings.Web" Version="4.4.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Builder\" />
-    <Folder Include="Provider\" />
-  </ItemGroup>
-
 </Project>
