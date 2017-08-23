@@ -7813,15 +7813,15 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Administrator\\.nuget\\packages\\": {}
+    "C:\\Users\\chenglinwang\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Administrator\\Source\\Repos\\SmartQQ\\src\\SmartQQSample\\SmartQQSample.csproj",
+      "projectUniqueName": "C:\\Users\\chenglinwang\\Source\\Repos\\SmartQQ\\src\\SmartQQSample\\SmartQQSample.csproj",
       "projectName": "SmartQQSample",
-      "projectPath": "C:\\Users\\Administrator\\Source\\Repos\\SmartQQ\\src\\SmartQQSample\\SmartQQSample.csproj",
-      "outputPath": "C:\\Users\\Administrator\\Source\\Repos\\SmartQQ\\src\\SmartQQSample\\obj\\",
+      "projectPath": "C:\\Users\\chenglinwang\\Source\\Repos\\SmartQQ\\src\\SmartQQSample\\SmartQQSample.csproj",
+      "outputPath": "C:\\Users\\chenglinwang\\Source\\Repos\\SmartQQ\\src\\SmartQQSample\\obj\\",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netcoreapp1.1"
@@ -7829,8 +7829,8 @@
       "frameworks": {
         "netcoreapp1.1": {
           "projectReferences": {
-            "C:\\Users\\Administrator\\Source\\Repos\\SmartQQ\\src\\SmartQQ\\SmartQQ.csproj": {
-              "projectPath": "C:\\Users\\Administrator\\Source\\Repos\\SmartQQ\\src\\SmartQQ\\SmartQQ.csproj"
+            "C:\\Users\\chenglinwang\\Source\\Repos\\SmartQQ\\src\\SmartQQ\\SmartQQ.csproj": {
+              "projectPath": "C:\\Users\\chenglinwang\\Source\\Repos\\SmartQQ\\src\\SmartQQ\\SmartQQ.csproj"
             }
           }
         }

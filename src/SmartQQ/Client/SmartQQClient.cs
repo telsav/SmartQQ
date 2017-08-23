@@ -25,6 +25,7 @@ namespace SmartQQ.Client
         private readonly Cache<FriendInfo> _myInfoCache;
         private readonly CacheDictionary<long, long> _qqNumberCache;
 
+        internal static HttpClientHandler Handler = new HttpClientHandler();
         internal readonly HttpClient Client;
 
         private static CookieContainer Cookies;
@@ -51,14 +52,13 @@ namespace SmartQQ.Client
         {
             Logger.Instance.OutputType=OutputType.Console;
             Cookies = new CookieContainer();
-            Client = new HttpClient(new HttpClientHandler {
-                CookieContainer=Cookies,
-                AutomaticDecompression = DecompressionMethods.GZip,
-                AllowAutoRedirect = false
-            });
+            Handler.UseCookies = true;
+            Handler.CookieContainer = Cookies;
+            Handler.AllowAutoRedirect = true;
+            Client = new HttpClient(Handler);
 
             Client.DefaultRequestHeaders.Add("User-Agent", ApiUrl.UserAgent);
-            Client.DefaultRequestHeaders.Add("PersistCookies", "true");
+            Client.DefaultRequestHeaders.Add("KeepAlive", "true");
             _cache = new CacheDepot(CacheTimeout);
             _myInfoCache = new Cache<FriendInfo>(CacheTimeout);
             _qqNumberCache = new CacheDictionary<long, long>(CacheTimeout);
@@ -413,14 +413,10 @@ namespace SmartQQ.Client
         ///     导出当前cookie集合。
         /// </summary>
         /// <returns>当前cookie集合的JSON字符串。</returns>
-        public string DumpCookies()
+        public string SmartQQCookies()
         {
             if (Status != ClientStatus.Active)
                 throw new InvalidOperationException("仅在登录后才能导出cookie");
-            var cookieContainer = Client.GetType()
-                .GetField(@"cookieContainer", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (cookieContainer == null)
-                throw new NotImplementedException("无法读取Cookie，可能是因为EasyHttp更改了HttpRequest类的内部结构；请Issue汇报该问题。");
             return new JObject
             {
                 {"hash", Hash},
@@ -430,7 +426,7 @@ namespace SmartQQ.Client
                 {"vfwebqq", Vfwebqq},
                 {
                     "cookies",
-                    JArray.FromObject(((CookieContainer) cookieContainer.GetValue(Client.GetType())).GetAllCookies())
+                    JArray.FromObject(Cookies.GetAllCookies())
                 }
             }.ToString(Formatting.None);
         }
@@ -444,13 +440,6 @@ namespace SmartQQ.Client
             if (Status != ClientStatus.Idle)
                 throw new InvalidOperationException("已在登录或者已经登录，不能重复进行登录操作");
 
-
-            var cookieContainerField = Client.GetType()
-                .GetField(@"cookieContainer", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (cookieContainerField == null)
-                throw new NotImplementedException("无法写入Cookie，可能是因为EasyHttp更改了HttpRequest类的内部结构；请Issue汇报该问题。");
-            var originalCookieContainer = cookieContainerField.GetValue(Client.GetType());
-
             try
             {
                 Logger.Instance.Debug("开始通过cookie登录");
@@ -461,10 +450,11 @@ namespace SmartQQ.Client
                 Ptwebqq = dump["ptwebqq"].Value<string>();
                 Uin = dump["uin"].Value<long>();
                 Vfwebqq = dump["vfwebqq"].Value<string>();
-                var cookies = new CookieContainer();
                 foreach (var cookie in dump["cookies"].Value<JArray>().ToObject<List<Cookie>>())
-                    cookies.Add(new Uri(""), cookie);
-                cookieContainerField.SetValue(Client.GetType(), cookies);
+                {
+                    Cookies.Add(new Uri("http://" + cookie.Domain), cookie);
+                }
+                Handler.CookieContainer = Cookies;
 
                 if (TestLogin())
                 {
@@ -473,13 +463,11 @@ namespace SmartQQ.Client
                     return LoginResult.Succeeded;
                 }
                 Status = ClientStatus.Idle;
-                cookieContainerField.SetValue(Client.GetType(), originalCookieContainer);
                 return LoginResult.CookieExpired;
             }
             catch (Exception ex)
             {
                 Status = ClientStatus.Idle;
-                cookieContainerField.SetValue(Client.GetType(), originalCookieContainer);
                 Logger.Instance.Error("登录失败，抛出异常：" + ex);
                 return LoginResult.Failed;
             }
@@ -613,15 +601,16 @@ namespace SmartQQ.Client
         private void GetPtwebqq(string url)
         {
             Logger.Instance.Debug("开始获取ptwebqq");
-            Client.GetAsync(ApiUrl.GetPtwebqq, url);
+            var response=Client.GetAsync(ApiUrl.GetPtwebqq, url);
+            response.Wait();
         }
 
         // 获取vfwebqq
         private void GetVfwebqq()
         {
             Logger.Instance.Debug("开始获取vfwebqq");
-
             var response = Client.GetAsync(ApiUrl.GetVfwebqq, Ptwebqq);
+            response.Wait();
             Vfwebqq = ((JObject)GetResponseJson(response.Result)["result"])["vfwebqq"].Value<string>();
         }
 
@@ -650,6 +639,7 @@ namespace SmartQQ.Client
             Logger.Instance.Debug("开始向服务器发送测试连接请求");
 
             var result = Client.GetStringAsync(ApiUrl.TestLogin, Vfwebqq, ClientId, Psessionid, RandomHelper.GetRandomDouble());
+            result.Wait();
             return result.IsCompleted &&
                    JObject.Parse(result.Result)["retcode"].Value<int?>() == 0;
         }
@@ -672,9 +662,7 @@ namespace SmartQQ.Client
                     }
                     catch (Exception ex)
                     {
-                        //if (!(ex is HttpRequestException) || !(ex.InnerException is HttpException) ||
-                        //    ((HttpException)ex.InnerException).StatusCode != HttpStatusCode.GatewayTimeout)
-                            Logger.Instance.Error(ex);
+                        Logger.Instance.Error(ex);
                         // 自动掉线
                         if (TestLogin())
                             continue;
@@ -700,11 +688,13 @@ namespace SmartQQ.Client
             };
 
             var response = Client.PostAsync(ApiUrl.PollMessage, r, 120000);
+            response.Wait();
             var array = GetResponseJson(response.Result)["result"] as JArray;
             for (var i = 0; array != null && i < array.Count; i++)
             {
                 var message = (JObject)array[i];
                 var type = message["poll_type"].Value<string>();
+                Logger.Instance.Info("Message Type:"+type);
                 switch (type)
                 {
                     case "message":
@@ -748,8 +738,6 @@ namespace SmartQQ.Client
         {
             if (response.StatusCode != HttpStatusCode.OK)
                 Logger.Instance.Error("请求失败，Http返回码" + (int)response.StatusCode );
-                //throw new HttpRequestException("请求失败，Http返回码" + (int)response.StatusCode + "(" + response.StatusCode +
-                //                               ")", new HttpException(HttpStatusCode.GatewayTimeout, "Gateway Timeout"));
             var json = JObject.Parse(response.RawText().Result);
             var retCode = json["retcode"].Value<int?>();
             switch (retCode)

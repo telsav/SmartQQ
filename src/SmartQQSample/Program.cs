@@ -1,6 +1,7 @@
 ﻿using SmartQQ.Client;
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -13,11 +14,10 @@ namespace SmartQQSample
         static void Main(string[] args)
         {
             // 好友消息回调
-            Client.FriendMessageReceived +=
-                (sender, message) =>
-                {
-                    Console.WriteLine($"{message.Sender.Alias ?? message.Sender.Nickname}:{message.Content}");
-                };
+            Client.FriendMessageReceived +=(sender, message) =>
+            {
+                Console.WriteLine($"{message.Sender.Alias ?? message.Sender.Nickname}:{message.Content}");
+            };
             // 群消息回调
             Client.GroupMessageReceived += (sender, message) =>
             {
@@ -28,14 +28,19 @@ namespace SmartQQSample
                 else if (message.StrictlyMentionedMe)
                     message.Reply("什么事？");
             };
+
             // 讨论组消息回调
-            Client.DiscussionMessageReceived +=
-                (sender, message) =>
-                {
-                    Console.WriteLine($"[{message.Discussion.Name}]{message.Sender.Nickname}:{message.Content}");
-                };
+            Client.DiscussionMessageReceived +=(sender, message) =>
+            {
+                Console.WriteLine($"[{message.Discussion.Name}]{message.Sender.Nickname}:{message.Content}");
+            };
+
             // 消息回显
-            Client.MessageEcho += (sender, e) => { Console.WriteLine($"{e.Target.Name}>{e.Content}"); };
+            Client.MessageEcho += (sender, e) =>
+            {
+                Console.WriteLine($"{e.Target.Name}>{e.Content}");
+            };
+
             if (File.Exists(CookiePath))
             {
                 // 尝试使用cookie登录
@@ -46,11 +51,12 @@ namespace SmartQQSample
             {
                 QrLogin();
             }
+
             Console.WriteLine($"欢迎，{Client.Nickname}!");
             // 导出cookie
             try
             {
-                File.WriteAllText(CookiePath, Client.DumpCookies());
+                File.WriteAllText(CookiePath, Client.SmartQQCookies());
             }
             catch
             {
@@ -65,7 +71,13 @@ namespace SmartQQSample
         private static void QrLogin()
         {
             while (true)
-                switch (Client.Start(path => Process.Start(path)))
+                switch (Client.Start(path => {
+                    using (var ms = new MemoryStream(path))
+                    {
+                        SmartQQClient.ConsoleWriteImage(new Bitmap(Image.FromStream(ms)));
+                        Logger.Instance.Info("二维码已打印在屏幕，请使用手机QQ扫描。");
+                    }
+                }))
                 {
                     case SmartQQClient.LoginResult.Succeeded:
                         return;

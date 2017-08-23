@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -43,18 +45,16 @@ namespace SmartQQ.Constants
         public static async Task<HttpResponseMessage> GetAsync(this HttpClient client, ApiUrl url, bool? allowAutoRedirect, params object[] args)
         {
             var referer = client.DefaultRequestHeaders.Referrer;
-            var autoRedirect = false;// client.DefaultRequestHeaders.TryGetValue ;
 
-            client.DefaultRequestHeaders.Add("Referer", url.Referer);
-            if (allowAutoRedirect.HasValue)
-                client.DefaultRequestHeaders.Add("AllowAutoRedirect",allowAutoRedirect.Value?"true":"false");
+            if (url.Referer != null)
+            {
+                client.DefaultRequestHeaders.Referrer = new Uri(url.Referer);
+            }
+
             var response = client.GetAsync(url.BuildUrl(args));
-
+            response.Wait();
             // 复原client
-            //client.Request.Referer = referer;
-            client.DefaultRequestHeaders.Add("Referer", url.Referer);
-            //client.Request.AllowAutoRedirect = autoRedirect;
-            client.DefaultRequestHeaders.Add("AllowAutoRedirect", autoRedirect.ToString());
+            client.DefaultRequestHeaders.Referrer = referer;
 
             return await response;
         }
@@ -71,18 +71,16 @@ namespace SmartQQ.Constants
         public static async Task<string> GetStringAsync(this HttpClient client, ApiUrl url, bool? allowAutoRedirect, params object[] args)
         {
             var referer = client.DefaultRequestHeaders.Referrer;
-            var autoRedirect = false;// client.DefaultRequestHeaders.TryGetValue ;
 
-            client.DefaultRequestHeaders.Add("Referer", url.Referer);
-            if (allowAutoRedirect.HasValue)
-                client.DefaultRequestHeaders.Add("AllowAutoRedirect", allowAutoRedirect.Value ? "true" : "false");
+            if (url.Referer != null)
+            {
+                client.DefaultRequestHeaders.Referrer = new Uri(url.Referer);
+            }
+
             var response = client.GetStringAsync(url.BuildUrl(args));
-
+            response.Wait();
             // 复原client
-            //client.Request.Referer = referer;
-            client.DefaultRequestHeaders.Add("Referer", url.Referer);
-            //client.Request.AllowAutoRedirect = autoRedirect;
-            client.DefaultRequestHeaders.Add("AllowAutoRedirect", autoRedirect.ToString());
+            client.DefaultRequestHeaders.Referrer = referer;
 
             return await response;
         }
@@ -104,32 +102,39 @@ namespace SmartQQ.Constants
         /// <param name="json">JSON。</param>
         /// <param name="timeout">超时。</param>
         /// <returns></returns>
-        internal static async Task<HttpResponseMessage> PostAsync(this HttpClient client, ApiUrl url, JObject json, int timeout)
+        public static async Task<HttpResponseMessage> PostAsync(this HttpClient client, ApiUrl url, JObject json, int timeout)
         {
-            IEnumerable<string> origin;
-            var hasOrigin = client.DefaultRequestHeaders.TryGetValues("Origin", out origin);
-            var time = client.DefaultRequestHeaders.GetValues("Timeout").FirstOrDefault();
+            var hasOrigin = client.DefaultRequestHeaders.TryGetValues("Origin", out IEnumerable<string> origin);
 
-            client.DefaultRequestHeaders.Add("Referer" , url.Referer);
+            if (url.Referer != null)
+            {
+                client.DefaultRequestHeaders.Referrer = new Uri(url.Referer);
+            }
             if (client.DefaultRequestHeaders.Contains("Origin"))
+            {
+                client.DefaultRequestHeaders.Remove("Origin");
                 client.DefaultRequestHeaders.Add("Origin", url.Origin);
+            }
             else
+            {
                 client.DefaultRequestHeaders.Add("Origin", url.Origin);
-            if (timeout > 0)
-                client.DefaultRequestHeaders.Add("Timeout",timeout.ToString());
+            }
 
-
-            var response = client.PostAsync(url.Url,new StringContent("r=" + UrlEncoder.Default.Encode(json.ToString(Formatting.None)),Encoding.UTF8,
-                "application/x-www-form-urlencoded"));
+            HttpContent hc = new StringContent($"r={WebUtility.UrlEncode(json.ToString(Formatting.None))}", Encoding.UTF8);
+            hc.Headers.ContentType = MediaTypeHeaderValue.Parse("application/ x-www-form-urlencoded; charset=UTF-8");
+            var response = client.PostAsync(url.Url, hc);
+            response.Wait();
 
             // 复原client
             if (hasOrigin)
             {
-                client.DefaultRequestHeaders.Add("Origin", origin.FirstOrDefault());
+                client.DefaultRequestHeaders.Remove("Origin");
+                client.DefaultRequestHeaders.Add("Origin", origin);
             }
-            
-            client.DefaultRequestHeaders.Remove("Origin");
-            client.DefaultRequestHeaders.Add("Timeout", time);
+            else
+            {
+                client.DefaultRequestHeaders.Remove("Origin");
+            }
 
             return await response;
         }
@@ -142,7 +147,7 @@ namespace SmartQQ.Constants
         /// <param name="json">JSON。</param>
         /// <param name="retryTimes">重试次数。</param>
         /// <returns></returns>
-        internal static Task<HttpResponseMessage> PostWithRetry(this HttpClient client, ApiUrl url, JObject json, int retryTimes)
+        internal static async Task<HttpResponseMessage> PostWithRetry(this HttpClient client, ApiUrl url, JObject json, int retryTimes)
         {
             Task<HttpResponseMessage> response;
             do
@@ -150,7 +155,7 @@ namespace SmartQQ.Constants
                 response = client.PostAsync(url.Url, new StringContent(json.ToString(Formatting.None),Encoding.UTF8, "application/json"));
                 retryTimes++;
             } while (retryTimes >= 0 && response.Result.StatusCode != System.Net.HttpStatusCode.OK);
-            return response;
+            return await response;
         }
 
 
@@ -158,15 +163,6 @@ namespace SmartQQ.Constants
         {
             
             return  await response.Content.ReadAsStringAsync();
-        }
-    }
-
-
-    public static class CookieExtension
-    {
-        public static CookieCollection GetCookies(this CookieContainer cookies, ApiUrl url, params object[] args)
-        {
-           return cookies.GetCookies(new System.Uri(url.BuildUrl(args)));
         }
     }
 }

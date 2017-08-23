@@ -44,63 +44,37 @@ namespace SmartQQ.Client
 
         public static void ConsoleWriteImage(Bitmap source)
         {
-            int sMax = 15;
-            decimal percent = Math.Min(decimal.Divide(sMax, source.Width), decimal.Divide(sMax, source.Height));
-            Size dSize = new Size((int)(source.Width * percent), (int)(source.Height * percent));
-            Bitmap bmpMax = new Bitmap(source, dSize.Width * 2, dSize.Height);
-            for (int i = 0; i < dSize.Height; i++)
+            Bitmap bmp = (Bitmap)source;
+
+            int w = bmp.Width;
+            int h = bmp.Height;
+
+            int max = 28;
+
+            // we need to scale down high resolution images...
+            int complexity = (int)Math.Floor(Convert.ToDecimal(((w / max) + (h / max)) / 2));
+
+            if (complexity < 1) { complexity = 1; }
+
+            for (var x = 0; x < w; x += complexity)
             {
-                for (int j = 0; j < dSize.Width; j++)
+                for (var y = 0; y < h; y += complexity)
                 {
-                    ConsoleWritePixel(bmpMax.GetPixel(j * 2, i));
-                    ConsoleWritePixel(bmpMax.GetPixel(j * 2 + 1, i));
+                    Color clr = bmp.GetPixel(x, y);
+                    Console.ForegroundColor = getNearestConsoleColor(clr);
+                    Console.Write("█");
                 }
-                System.Console.WriteLine();
+                Console.WriteLine();
             }
-            Console.ResetColor();
+
+            Console.WriteLine();
         }
-
-        //public static void ConsoleWriteImage(string path)
-        //{
-        //    Image Picture = Image.FromFile(path); //Here we may put anything, this is just for testing purposes. :)
-        //    Console.SetBufferSize((Picture.Width * 0x2), (Picture.Height * 0x2));
-        //    Console.WindowWidth = 180;
-        //    Console.WindowHeight = 61;
-
-        //    FrameDimension Dimension = new FrameDimension(Picture.FrameDimensionsList[0x0]);
-        //    int FrameCount = Picture.GetFrameCount(Dimension);
-        //    int Left = Console.WindowLeft, Top = Console.WindowTop;
-        //    char[] Chars = { '#', '#', '@', '%', '=', '+', '*', ':', '-', '.', ' ' };
-        //    Picture.SelectActiveFrame(Dimension, 0x0);
-        //    for (int i = 0x0; i < Picture.Height; i++)
-        //    {
-        //        for (int x = 0x0; x < Picture.Width; x++)
-        //        {
-        //            Color Color = ((Bitmap)Picture).GetPixel(x, i);
-        //            int Gray = (Color.R + Color.G + Color.B) / 0x3;
-        //            int Index = (Gray * (Chars.Length - 0x1)) / 0xFF;
-        //            Console.Write(Chars[Index]);
-        //        }
-        //        Console.Write('\n');
-        //        Thread.Sleep(50);
-        //    }
-        //    Console.SetCursorPosition(Left, Top);
-        //    Console.Read();
-
-
-        //}
 
         public static void ConsoleWriteImage(string path)
         {
             Image img = Image.FromFile(path);
             img.RotateFlip(RotateFlipType.Rotate90FlipX);
             Bitmap bmp = (Bitmap)img;
-
-            //Console.WindowWidth = Console.LargestWindowWidth;
-            //Console.WindowHeight = Console.LargestWindowHeight;
-            //Console.WindowTop = 0;
-            //Console.WindowLeft = 0;
-
 
             int w = bmp.Width;
             int h = bmp.Height;
@@ -274,6 +248,5 @@ namespace SmartQQ.Client
             else return false;
 
         }
-
     }
 }

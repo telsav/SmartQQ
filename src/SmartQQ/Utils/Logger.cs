@@ -5,7 +5,7 @@ using System.Drawing;
 using Console = Colorful.Console;
 using System.Text;
 
-namespace SmartQQ
+namespace SmartQQ.Client
 {
     public sealed class Logger
     {
