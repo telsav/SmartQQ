@@ -1,5 +1,5 @@
 # SmartQQ  
-## 可运行在 Linux 、 Windows 和 Mac OSX 平台下。
+## 采用.NET CORE可运行在 Linux 、 Windows 和 Mac OSX 平台下。
 
 # 效果如下图:
 <div align="center">
