@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>SmartQQ</id>
+    <version>1.0.0</version>
+    <authors>Charlie Wong</authors>
+    <owners>Charlie Wong</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/WangCharlie/SmartQQ/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/WangCharlie/SmartQQ</projectUrl>
+    <description>Package Description</description>
+    <releaseNotes>a cross platform web-qq client</releaseNotes>
+    <dependencies>
+      <group targetFramework=".NETCoreApp1.1">
+        <dependency id="Colorful.Console" version="1.1.2" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.Serialization.Json" version="4.3.0" exclude="Build,Analyzers" />
+        <dependency id="System.Text.Encoding.CodePages" version="4.4.0" exclude="Build,Analyzers" />
+        <dependency id="System.Text.Encodings.Web" version="4.4.0" exclude="Build,Analyzers" />
+        <dependency id="System.Net.Http" version="4.3.2" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.NETCore.App" version="1.1.2" exclude="Build,Analyzers" />
+        <dependency id="Newtonsoft.Json" version="10.0.3" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQ\bin\Debug\netcoreapp1.1\SmartQQ.dll" target="lib\netcoreapp1.1\SmartQQ.dll" />
+  </files>
+</package>

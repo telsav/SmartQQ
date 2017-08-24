@@ -31,3 +31,4 @@ C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQSample\obj\Debug\netcoreap
 C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQSample\obj\Debug\netcoreapp1.1\SmartQQSample.AssemblyInfo.cs
 C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQSample\obj\Debug\netcoreapp1.1\SmartQQSample.dll
 C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQSample\obj\Debug\netcoreapp1.1\SmartQQSample.pdb
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQSample\obj\Debug\netcoreapp1.1\SmartQQSample.csproj.CoreCompileInputs.cache

@@ -1,0 +1,12 @@
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQSample\bin\Release\netcoreapp1.1\SmartQQSample.deps.json
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQSample\bin\Release\netcoreapp1.1\SmartQQSample.runtimeconfig.json
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQSample\bin\Release\netcoreapp1.1\SmartQQSample.runtimeconfig.dev.json
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQSample\bin\Release\netcoreapp1.1\SmartQQSample.dll
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQSample\bin\Release\netcoreapp1.1\SmartQQSample.pdb
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQSample\bin\Release\netcoreapp1.1\SmartQQ.dll
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQSample\bin\Release\netcoreapp1.1\SmartQQ.pdb
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQSample\obj\Release\netcoreapp1.1\SmartQQSample.csprojResolveAssemblyReference.cache
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQSample\obj\Release\netcoreapp1.1\SmartQQSample.csproj.CoreCompileInputs.cache
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQSample\obj\Release\netcoreapp1.1\SmartQQSample.AssemblyInfo.cs
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQSample\obj\Release\netcoreapp1.1\SmartQQSample.dll
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQSample\obj\Release\netcoreapp1.1\SmartQQSample.pdb

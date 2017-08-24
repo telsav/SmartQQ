@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "targets": {
     ".NETCoreApp,Version=v1.1": {
       "Colorful.Console/1.1.2": {
@@ -2540,6 +2540,12 @@
           "System.Runtime.Serialization.Json": "4.3.0",
           "System.Text.Encoding.CodePages": "4.4.0",
           "System.Text.Encodings.Web": "4.4.0"
+        },
+        "compile": {
+          "bin/placeholder/SmartQQ.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SmartQQ.dll": {}
         }
       }
     }
@@ -7817,15 +7823,30 @@
   },
   "project": {
     "version": "1.0.0",
+    "restoreSettings": {
+      "hideWarningsAndErrors": true
+    },
     "restore": {
       "projectUniqueName": "C:\\Users\\chenglinwang\\Source\\Repos\\SmartQQ\\src\\SmartQQSample\\SmartQQSample.csproj",
       "projectName": "SmartQQSample",
       "projectPath": "C:\\Users\\chenglinwang\\Source\\Repos\\SmartQQ\\src\\SmartQQSample\\SmartQQSample.csproj",
+      "packagesPath": "C:\\Users\\chenglinwang\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\chenglinwang\\Source\\Repos\\SmartQQ\\src\\SmartQQSample\\obj\\",
       "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\chenglinwang\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
       "originalTargetFrameworks": [
         "netcoreapp1.1"
       ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Users\\chenglinwang\\Documents\\Visual Studio 2015\\Projects\\DPortal\\DPortal.Web.Framework": {},
+        "https://api.nuget.org/v3/index.json": {},
+        "https://dotnet.myget.org/F/aspnetcore-master/api/v3/index.json": {},
+        "https://www.myget.org/F/imagesharp/api/v3/index.json": {}
+      },
       "frameworks": {
         "netcoreapp1.1": {
           "projectReferences": {
@@ -7839,6 +7860,10 @@
     "frameworks": {
       "netcoreapp1.1": {
         "dependencies": {
+          "SmartQQ": {
+            "target": "Package",
+            "version": "1.0.0"
+          },
           "Microsoft.NETCore.App": {
             "target": "Package",
             "version": "1.1.2",

@@ -1,0 +1,6 @@
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQ\bin\Release\netcoreapp1.1\SmartQQ.deps.json
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQ\bin\Release\netcoreapp1.1\SmartQQ.dll
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQ\bin\Release\netcoreapp1.1\SmartQQ.pdb
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQ\obj\Release\netcoreapp1.1\SmartQQ.csproj.CoreCompileInputs.cache
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQ\obj\Release\netcoreapp1.1\SmartQQ.dll
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQ\obj\Release\netcoreapp1.1\SmartQQ.pdb

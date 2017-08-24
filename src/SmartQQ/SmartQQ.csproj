@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <PackageProjectUrl>https://github.com/WangCharlie/SmartQQ</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/WangCharlie/SmartQQ/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageReleaseNotes>a cross platform web-qq client</PackageReleaseNotes>
+    <Authors>Charlie Wong</Authors>
   </PropertyGroup>
 
   <ItemGroup>
