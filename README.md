@@ -1,7 +1,7 @@
 # SmartQQ
 
 # 效果如下图:
-[!img](./readme/)
+[!img](./readme/QQ截图20170823115255.png)
 
 # 调用代码
 ```
