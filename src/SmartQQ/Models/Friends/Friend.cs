@@ -164,7 +164,7 @@ namespace SmartQQ.Models
         /// <param name="content">消息内容。</param>
         public void Message(string content)
         {
-            Client.Message(SmartQQClient.TargetType.Friend, Id, content);
+            Client.Message(TargetType.Friend, Id, content);
         }
 
         string IMessageable.Name => Nickname;

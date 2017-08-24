@@ -8,7 +8,6 @@ namespace SmartQQSample
     class Program
     {
         private const string CookiePath = "dump.json";
-        //private static readonly SmartQQClient Client = new SmartQQClient { CacheTimeout = TimeSpan.FromDays(1) };
         static void Main(string[] args)
         {
             SmartQQClient
@@ -20,10 +19,11 @@ namespace SmartQQSample
                         SmartQQClient.ConsoleWriteImage(new Bitmap(Image.FromStream(ms)));
                         Logger.Instance.Info("二维码已打印在屏幕，请使用手机QQ扫描。");
                     }
+
                 })
                 // 好友消息回调
                 .ReceivedFriendMessage((message) => {
-                    message.Reply("test");
+                    //message.Reply("test");
                     Logger.Instance.Info($"{message.Sender.Alias ?? message.Sender.Nickname}:{message.Content}");
                 })
                 // 群消息回调
@@ -50,9 +50,7 @@ namespace SmartQQSample
                 });
 
             Console.ReadLine();
-
-
-          
+ 
         }
     }
 }

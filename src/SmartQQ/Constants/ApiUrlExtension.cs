@@ -86,6 +86,31 @@ namespace SmartQQ.Constants
         }
 
         /// <summary>
+        /// get stream from http client
+        /// </summary>
+        /// <param name="client"></param>
+        /// <param name="url"></param>
+        /// <param name="allowAutoRedirect"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static async Task<System.IO.Stream> GetJsonAsync(this HttpClient client, ApiUrl url, bool? allowAutoRedirect, params object[] args)
+        {
+            var referer = client.DefaultRequestHeaders.Referrer;
+
+            if (url.Referer != null)
+            {
+                client.DefaultRequestHeaders.Referrer = new Uri(url.Referer);
+            }
+
+            var response = client.GetStreamAsync(url.BuildUrl(args));
+            response.Wait();
+            // 复原client
+            client.DefaultRequestHeaders.Referrer = referer;
+
+            return await response;
+        }
+
+        /// <summary>
         ///     发送POST请求。
         /// </summary>
         /// <param name="client"></param>

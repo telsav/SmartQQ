@@ -8,7 +8,7 @@ namespace SmartQQ
     {
         static int[] cColors = { 0x000000, 0x000080, 0x008000, 0x008080, 0x800000, 0x800080, 0x808000, 0xC0C0C0, 0x808080, 0x0000FF, 0x00FF00, 0x00FFFF, 0xFF0000, 0xFF00FF, 0xFFFF00, 0xFFFFFF };
 
-        public static void ConsoleWritePixel(Color cValue)
+        private static void ConsoleWritePixel(Color cValue)
         {
             Color[] cTable = cColors.Select(x => Color.FromArgb(x)).ToArray();
             char[] rList = new char[] { (char)9617, (char)9618, (char)9619, (char)9608 }; // 1/4, 2/4, 3/4, 4/4
@@ -100,7 +100,7 @@ namespace SmartQQ
             Console.WriteLine();
         }
 
-        public static ConsoleColor getNearestConsoleColor(Color color)
+        private static ConsoleColor getNearestConsoleColor(Color color)
         {
             // this is very likely to be awful and hilarious
             int r = color.R;
@@ -237,7 +237,7 @@ namespace SmartQQ
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool areClose(int a, int b)
+        private static bool areClose(int a, int b)
         {
             int diff = Math.Abs(a - b);
 

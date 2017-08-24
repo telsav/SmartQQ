@@ -103,7 +103,7 @@ namespace SmartQQ.Models
         /// <param name="content">回复内容。</param>
         public void Reply(string content)
         {
-            Client.Message(SmartQQClient.TargetType.Group, GroupId, content);
+            Client.Message(TargetType.Group, GroupId, content);
         }
 
         /// <inheritdoc />

@@ -1,15 +1,15 @@
 ﻿using SmartQQ.Models;
+using SmartQQ.Provider;
 using System;
-using static SmartQQ.SmartQQClient;
 
 namespace SmartQQ.Builder
 {
-    public partial class SmartQQClientBuilder
+    public partial class SmartQQClientBuilder: ISmartQQClientBuilder
     {
         #region FriendMessage
 
         private Action<FriendMessage> actionFriendMessage;
-        public SmartQQClientBuilder ReceivedFriendMessage(Action<FriendMessage> action)
+        public ISmartQQClientBuilder ReceivedFriendMessage(Action<FriendMessage> action)
         {
             this.actionFriendMessage = (sender) =>
             {
@@ -24,7 +24,7 @@ namespace SmartQQ.Builder
         #region GroupMessage
 
         private Action<GroupMessage> actionGroupMessage;
-        public SmartQQClientBuilder ReceivedGroupMessage(Action<GroupMessage> action)
+        public ISmartQQClientBuilder ReceivedGroupMessage(Action<GroupMessage> action)
         {
             this.actionGroupMessage = (sender) =>
             {
@@ -39,7 +39,7 @@ namespace SmartQQ.Builder
         #region DiscussionMessage
 
         private Action<DiscussionMessage> actionDiscussionMessage;
-        public SmartQQClientBuilder ReceivedDiscussionMessage(Action<DiscussionMessage> action)
+        public ISmartQQClientBuilder ReceivedDiscussionMessage(Action<DiscussionMessage> action)
         {
             this.actionDiscussionMessage = (sender) =>
             {
@@ -54,7 +54,7 @@ namespace SmartQQ.Builder
         #region MessageEchoEventArgs
 
         private Action<MessageEchoEventArgs> actionMessageEchoEventArgs;
-        public SmartQQClientBuilder ReceivedMessageEchoEventArgs(Action<MessageEchoEventArgs> action)
+        public ISmartQQClientBuilder ReceivedMessageEchoEventArgs(Action<MessageEchoEventArgs> action)
         {
             this.actionMessageEchoEventArgs = (sender) =>
             {
@@ -69,7 +69,7 @@ namespace SmartQQ.Builder
         #region MessageEchoEventArgs
 
         private Action<string> actionExtraLoginNeeded;
-        public SmartQQClientBuilder ExtraLoginNeeded(Action<string> action)
+        public ISmartQQClientBuilder ExtraLoginNeeded(Action<string> action)
         {
             this.actionExtraLoginNeeded = (sender) =>
             {
@@ -84,7 +84,7 @@ namespace SmartQQ.Builder
         #region ConnectionLost
 
         private Action<Object> actionConnectionLost;
-        public SmartQQClientBuilder ConnectionLost(Action<object> action)
+        public ISmartQQClientBuilder ConnectionLost(Action<object> action)
         {
             this.actionConnectionLost = (sender) =>
             {
@@ -95,7 +95,6 @@ namespace SmartQQ.Builder
         }
 
         #endregion  
-        
-
+       
     }
 }

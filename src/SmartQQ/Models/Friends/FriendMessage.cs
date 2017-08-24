@@ -62,7 +62,7 @@ namespace SmartQQ.Models
         /// <param name="content">回复内容。</param>
         public void Reply(string content)
         {
-            Client.Message(SmartQQClient.TargetType.Friend, SenderId, content);
+            Client.Message(TargetType.Friend, SenderId, content);
         }
 
         /// <inheritdoc />

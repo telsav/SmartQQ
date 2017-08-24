@@ -18,3 +18,4 @@ C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQ\bin\Debug\netcoreapp1.1\S
 C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQ\obj\Debug\netcoreapp1.1\SmartQQ.AssemblyInfo.cs
 C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQ\obj\Debug\netcoreapp1.1\SmartQQ.dll
 C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQ\obj\Debug\netcoreapp1.1\SmartQQ.pdb
+C:\Users\chenglinwang\Source\Repos\SmartQQ\src\SmartQQ\obj\Debug\netcoreapp1.1\SmartQQ.csprojResolveAssemblyReference.cache

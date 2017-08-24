@@ -67,7 +67,7 @@ namespace SmartQQ.Models
         /// <param name="content">消息内容。</param>
         public void Message(string content)
         {
-            Client.Message(SmartQQClient.TargetType.Discussion, Id, content);
+            Client.Message(TargetType.Discussion, Id, content);
         }
 
         /// <inheritdoc />

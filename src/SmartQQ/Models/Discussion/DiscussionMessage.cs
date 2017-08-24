@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SmartQQ;
 using SmartQQ.Builder;
 using SmartQQ.Utils;
 
@@ -78,7 +77,7 @@ namespace SmartQQ.Models
         /// <param name="content">回复内容。</param>
         public void Reply(string content)
         {
-            Client.Message(SmartQQClient.TargetType.Discussion, DiscussionId, content);
+            Client.Message(TargetType.Discussion, DiscussionId, content);
         }
 
         /// <inheritdoc />

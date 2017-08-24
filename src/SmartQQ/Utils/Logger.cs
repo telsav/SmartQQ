@@ -182,6 +182,10 @@ namespace SmartQQ
                     {
                         Console.WriteLine(log, Color.Red);
                     }
+                    else if (type == LogType.Info)
+                    {
+                        Console.WriteLine(log, Color.Green);
+                    }
                     else
                     {
                         Console.WriteLine(log);

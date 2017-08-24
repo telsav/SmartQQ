@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using SmartQQ;
 using SmartQQ.Builder;
 using SmartQQ.Constants;
 using SmartQQ.Utils;
@@ -135,7 +134,7 @@ namespace SmartQQ.Models
         /// <param name="content">消息内容。</param>
         public void Message(string content)
         {
-            Client.Message(SmartQQClient.TargetType.Group, Id, content);
+            Client.Message(TargetType.Group, Id, content);
         }
 
         /// <inheritdoc />
