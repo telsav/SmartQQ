@@ -1,6 +1,9 @@
 # SmartQQ
 
-#调用代码
+# 效果如下图:
+[!img](./readme/)
+
+# 调用代码
 ```
  SmartQQClient
                 // 登录
