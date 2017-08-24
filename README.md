@@ -1,7 +1,14 @@
 # SmartQQ
 
 # 效果如下图:
-[!img](./readme/QQ截图20170823115255.png)
+<div align="center">
+<img src="readme/QQ截图20170823115255.png"/>
+</div>
+
+-----------------
+| **`Linux CPU`** | **`Linux GPU`** | **`Mac OS CPU`** | **`Windows CPU`** | **`Android`** |
+|-----------------|---------------------|------------------|-------------------|---------------|
+| [![Build Status](https://ci.tensorflow.org/buildStatus/icon?job=tensorflow-master-cpu)](https://github.com/WangCharlie/SmartQQ) | [![Build Status](https://ci.tensorflow.org/buildStatus/icon?job=tensorflow-master-linux-gpu)](https://github.com/WangCharlie/SmartQQ) | [![Build Status](https://ci.tensorflow.org/buildStatus/icon?job=tensorflow-master-mac)](https://github.com/WangCharlie/SmartQQ) | [![Build Status](https://ci.tensorflow.org/buildStatus/icon?job=tensorflow-master-win-cmake-py)](https://github.com/WangCharlie/SmartQQ) | [![Build Status](https://ci.tensorflow.org/buildStatus/icon?job=tensorflow-master-android)](https://github.com/WangCharlie/SmartQQ) |
 
 # 调用代码
 ```
