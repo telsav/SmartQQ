@@ -53,3 +53,13 @@
 
             Console.ReadLine();
 ```
+
+# 引用
+https://github.com/TJYSunset/DumbQQ
+https://github.com/scienjus/smartqq
+
+
+# 类似项目
+https://github.com/rmbadmin/DumbQQ-Core
+
+# 欢迎提交issue 
